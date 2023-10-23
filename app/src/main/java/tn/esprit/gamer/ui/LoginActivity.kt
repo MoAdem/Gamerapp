@@ -66,7 +66,7 @@ class LoginActivity : AppCompatActivity() {
             if (validateEmail() && validatePassword()){
                 startActivity(Intent(this, HomeActivity::class.java))
             }else{
-                Snackbar.make(binding.contextView, getString(R.string.msg_error_inputs), Snackbar.LENGTH_SHORT)
+                Snackbar.make(binding.contextView, getString(R.string.msg_invalid_email_password), Snackbar.LENGTH_SHORT)
 //                    .setAction("ACTION") {
 //                        // Responds to click on the action
 //                    }
@@ -98,9 +98,17 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this, SignUpActivity::class.java))
         }
 
-        startActivity(Intent(this, HomeActivity::class.java))
     }
 
+    //checking user
+    private fun getUserInfo(): Pair<String?, String?> {
+        val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+
+        val email = sharedPreferences.getString("email", null)
+        val password = sharedPreferences.getString("password",null)
+
+        return Pair( email,password)
+    }
     private fun validateEmail(): Boolean {
         binding.tiEmailLayout.isErrorEnabled = false
 
@@ -111,14 +119,15 @@ class LoginActivity : AppCompatActivity() {
         }else{
             binding.tiEmailLayout.isErrorEnabled = false
         }
+        val (savedEmail, _) = getUserInfo()
 
-        if (Patterns.EMAIL_ADDRESS.matcher(binding.tiEmail.text.toString()).matches()) {
-            binding.tiEmailLayout.error = getString(R.string.msg_check_your_email)
+        if (binding.tiEmail.text.toString() != savedEmail) {
             binding.tiEmail.requestFocus()
             return false
-        }else{
+        } else {
             binding.tiEmailLayout.isErrorEnabled = false
         }
+
 
         return true
     }
@@ -133,15 +142,14 @@ class LoginActivity : AppCompatActivity() {
         }else{
             binding.tiPasswordLayout.isErrorEnabled = false
         }
+        val (_, savedPassword) = getUserInfo()
 
-        if (binding.tiPassword.text.toString().length < 6) {
-            binding.tiPasswordLayout.error = getString(R.string.msg_check_your_characters)
+        if (binding.tiPassword.text.toString() != savedPassword) {
             binding.tiPassword.requestFocus()
             return false
-        }else{
+        } else {
             binding.tiPasswordLayout.isErrorEnabled = false
         }
-
         return true
     }
 

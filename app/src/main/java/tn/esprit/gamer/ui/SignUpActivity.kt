@@ -83,7 +83,14 @@ class SignUpActivity : AppCompatActivity() {
         binding.btnSignUp.setOnClickListener {
             MyStatics.hideKeyboard(this, binding.btnSignUp)
             if (validateFullName() && validateEmail() && validatePassword() && validateConfirmPassword()){
-                startActivity(Intent(this, HomeActivity::class.java))
+                //saving credentials
+                saveUserInfo(
+                    binding.tiFullName.text.toString(),
+                    binding.tiEmail.text.toString(),
+                    binding.tiPassword.text.toString()
+                )
+
+                startActivity(Intent(this, LoginActivity::class.java))
             }else{
                 Snackbar.make(contextView, getString(R.string.msg_error_inputs), Snackbar.LENGTH_SHORT).show()
             }
@@ -96,6 +103,18 @@ class SignUpActivity : AppCompatActivity() {
         binding.btnReturn.setOnClickListener {
             finish()
         }
+    }
+
+    //saving credentials
+    private fun saveUserInfo(fullName: String, email: String, password: String) {
+        val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+
+        editor.putString("full_name", fullName)
+        editor.putString("email", email)
+        editor.putString("password", password)
+
+        editor.apply()
     }
 
     private fun validateFullName(): Boolean {
@@ -130,16 +149,25 @@ class SignUpActivity : AppCompatActivity() {
         }else{
             binding.tiEmailLayout.isErrorEnabled = false
         }
+        val existingEmail = checkIfEmailExists(binding.tiEmail.text.toString())
 
-        if (Patterns.EMAIL_ADDRESS.matcher(binding.tiEmail.text.toString()).matches()) {
-            binding.tiEmailLayout.error = getString(R.string.msg_check_your_email)
+
+        if (existingEmail) {
+            Snackbar.make(binding.contextView, getString(R.string.msg_email_already_used), Snackbar.LENGTH_SHORT)
+                .show()
             binding.tiEmail.requestFocus()
             return false
-        }else{
+        } else {
             binding.tiEmailLayout.isErrorEnabled = false
         }
 
         return true
+    }
+    private fun checkIfEmailExists(email: String): Boolean {
+        val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val savedEmail = sharedPreferences.getString("email", null)
+
+        return savedEmail == email
     }
 
     private fun validatePassword(): Boolean {
