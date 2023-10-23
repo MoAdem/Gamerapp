@@ -1,7 +1,49 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.ApplicationGamer" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    <style name="M3.AppTheme" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/colorPrimary</item>
+        <item name="colorOnPrimaryContainer">@color/white</item>
+
+        <item name="colorSecondary">@color/yellow</item>
+        <item name="colorOnSecondary">@color/yellow</item>
+        <item name="colorSecondaryContainer">@color/transparent</item>
+        <item name="colorOnSecondaryContainer">@color/white</item>
+
+        <item name="colorTertiary">@color/yellow</item>
+        <item name="colorOnTertiary">@color/yellow</item>
+        <item name="colorTertiaryContainer">@color/yellow</item>
+        <item name="colorOnTertiaryContainer">@color/yellow</item>
+
+        <item name="colorError">#B3261E</item>
+        <item name="colorErrorContainer">#B3261E</item>
+        <item name="colorOnError">#B3261E</item>
+        <item name="colorOnErrorContainer">#B3261E</item>
+
+        <item name="android:colorBackground">@color/colorSecondary</item>
+        <item name="colorOnBackground">@color/yellow</item>
+
+        <item name="colorSurface">@color/colorSecondary</item>
+        <item name="colorOnSurface">@color/white</item>
+        <item name="colorSurfaceVariant">@color/colorSecondary</item>
+        <item name="colorOnSurfaceVariant">@color/white</item>
+
+        <item name="colorOutline">@color/white</item>
+        <item name="colorOnSurfaceInverse">@color/white</item>
+        <item name="colorSurfaceInverse">@color/colorPrimary</item>
+        <item name="colorPrimaryInverse">@color/colorSecondary</item>
+
+        <item name="android:statusBarColor">@color/colorSecondaryDark</item>
+        <item name="android:textColorHighlight">@color/colorPrimary</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+
     </style>
+
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/colorSecondary</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
+        <item name="postSplashScreenTheme">@style/M3.AppTheme</item>
+    </style>
+
 </resources>
