@@ -46,7 +46,7 @@
     <string name="msg_check_your_email">Must be a valid email!</string>
     <string name="msg_email_already_used">email already used</string>
     <string name="msg_check_your_characters">Must be a at least 6 characters!</string>
-    <string name="msg_invalid_email_password">User not found”!</string>
+    <string name="msg_invalid_email_password">User not found!</string>
     <string name="msg_check_your_confirm_Password">Must be the same password!</string>
     <string name="msg_error_inputs">You Have some errors in your inputs!</string>
     <string name="msg_error_wrong_code">Wrong code!</string>

@@ -82,8 +82,14 @@ class SignUpActivity : AppCompatActivity() {
 
         binding.btnSignUp.setOnClickListener {
             MyStatics.hideKeyboard(this, binding.btnSignUp)
-            if (validateFullName() && validateEmail() && validatePassword() && validateConfirmPassword()){
-                //saving credentials
+
+            // Check if the email is already used
+            val isEmailAlreadyUsed = isEmailAlreadyUsed(binding.tiEmail.text.toString())
+
+            if (isEmailAlreadyUsed) {
+                Snackbar.make(contextView, getString(R.string.msg_email_already_used), Snackbar.LENGTH_SHORT).show()
+            } else if (validateFullName() && validateEmail() && validatePassword() && validateConfirmPassword()) {
+                // Saving credentials
                 saveUserInfo(
                     binding.tiFullName.text.toString(),
                     binding.tiEmail.text.toString(),
@@ -91,7 +97,7 @@ class SignUpActivity : AppCompatActivity() {
                 )
 
                 startActivity(Intent(this, LoginActivity::class.java))
-            }else{
+            } else {
                 Snackbar.make(contextView, getString(R.string.msg_error_inputs), Snackbar.LENGTH_SHORT).show()
             }
         }
@@ -104,7 +110,11 @@ class SignUpActivity : AppCompatActivity() {
             finish()
         }
     }
-
+    private fun isEmailAlreadyUsed(email: String): Boolean {
+        val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val savedEmail = sharedPreferences.getString("email", null)
+        return savedEmail == email
+    }
     //saving credentials
     private fun saveUserInfo(fullName: String, email: String, password: String) {
         val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
@@ -153,8 +163,6 @@ class SignUpActivity : AppCompatActivity() {
 
 
         if (existingEmail) {
-            Snackbar.make(binding.contextView, getString(R.string.msg_email_already_used), Snackbar.LENGTH_SHORT)
-                .show()
             binding.tiEmail.requestFocus()
             return false
         } else {
